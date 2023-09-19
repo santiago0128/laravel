@@ -27,7 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $campain = CampainServices::getCampains();
+        $campain = CampainServices::getCampainsUser();
         $user_session = SessionControlService::getSession();
 
         return view('home')->with('campains', $campain)
