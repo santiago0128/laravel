@@ -8,7 +8,7 @@
             <div class="tittle">
                 <h2>Usuarios Activos</h2>
             </div>
-            <div style="background-color: #EFEDED;">
+            <div class="background_section">
                 <table id="miTabla" class="table container">
                     <thead>
                         <tr>
@@ -38,8 +38,8 @@
             </div>
             <div class="row">
                 @foreach ($campains as $campain)
-                <div class="col-sm-4">
-                    <div class="card" style="width: 18rem; display:flex">
+                <div class="col-sm-12 col-md-12 col-xl-4 background_section">
+                    <div class="card">
                         <img src="{{ asset('images/' . $campain->foto_campana.'') }}" class="card-img-top">
                         <div class="card-body">
                             <p class="card-text">{{$campain->nombre_campana}}</p>
@@ -58,16 +58,16 @@
                     <div class="row">
                         <div class="col-sm-4 ">
                         </div>
-                        <div class="col-sm-4 ">
-                            <img class="avatar border-gray" style="width: 150px; height: 150px; padding: 15px;" src="{{asset('images/user.png')}}" alt="...">
+                        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 ">
+                            <img class="avatar border-gray" style="width: 150px; height: 150px; padding: 15px; align-items: center; display: flex;" src="{{asset('images/user.png')}}" alt="...">
                         </div>
                         <div class="col-sm-4 ">
                         </div>
                         <hr>
-                        <div class="col-sm-6 col-2">
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                             <h5 class="title" style="text-align: center;">{{Auth::user()->email}}</h5>
                         </div>
-                        <div class="col-sm-6 col-2">
+                        <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                             <p class="description" style="text-align: center;"> {{Auth::user()->name}} </p>
                         </div>
                     </div>

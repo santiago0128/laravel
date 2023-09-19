@@ -142,6 +142,12 @@ a {
     background-color: var(--white-color)
 }
 
+.background_section {
+    background-color: #EFEDED;
+    padding: 25px; 
+    border-radius: 10px;
+}
+
 .height-100 {
     height: 100vh
 }

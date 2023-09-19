@@ -28,13 +28,7 @@ class HomeController extends Controller
     public function index()
     {
         $campain = CampainServices::getCampains();
-        $user_session = SessionControlService::getSessionUser();
-
-        $perPage = 10;
-        $page = request()->get('page', 1); // Obtén el número de página de la solicitud (predeterminado: 1)
-        $offset = ($page - 1) * $perPage;
-        $items = array_slice($user_session, $offset, $perPage);
-        $paginator = new LengthAwarePaginator($items, count($user_session), $perPage, $page);
+        $user_session = SessionControlService::getSession();
 
         return view('home')->with('campains', $campain)
                            ->with('user_session', $user_session);
