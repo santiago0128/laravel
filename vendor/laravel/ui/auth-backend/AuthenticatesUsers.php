@@ -2,8 +2,9 @@
 
 namespace Illuminate\Foundation\Auth;
 
-use Illuminate\Http\JsonResponse;
+use App\Models\Licencia;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
@@ -83,9 +84,18 @@ trait AuthenticatesUsers
      */
     protected function attemptLogin(Request $request)
     {
-        return $this->guard()->attempt(
-            $this->credentials($request), $request->boolean('remember')
-        );
+        $credentials = $this->credentials($request);
+        $authenticated = Auth::attempt($credentials, $request->filled('remember'));
+
+        // Verifica si todas las licencias están ocupadas
+        $licenciasactivas = Licencia::select('cantidad')->where('activas', 'true')->count();
+        $usuarios_conectados = User::where('activo', true)->count();
+
+        if ($authenticated && $licenciasactivas > $usuarios_conectados) {
+            return true; // Inicio de sesión exitoso
+        } else {
+            return false; // No permitir el inicio de sesión
+        }
     }
 
     /**
@@ -168,13 +178,14 @@ trait AuthenticatesUsers
      */
     public function logout(Request $request)
     {
+        $user = Auth::user()->id;
         $this->guard()->logout();
 
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
 
-        if ($response = $this->loggedOut($request)) {
+        if ($response = $this->loggedOut($request, $user)) {
             return $response;
         }
 
@@ -189,10 +200,9 @@ trait AuthenticatesUsers
      * @param  \Illuminate\Http\Request  $request
      * @return mixed
      */
-    protected function loggedOut(Request $request)
+    protected function loggedOut(Request $request, $user)
     {
-        dd(Auth::user()->id); 
-        $user = User::where('id', )->update(['delayed' => 1]);
+         $user = User::where('id', $user)->update(['activo' => false]);
     }
 
     /**
