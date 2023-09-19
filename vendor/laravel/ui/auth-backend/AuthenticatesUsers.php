@@ -88,14 +88,16 @@ trait AuthenticatesUsers
         $authenticated = Auth::attempt($credentials, $request->filled('remember'));
 
         // Verifica si todas las licencias están ocupadas
-        $licenciasactivas = Licencia::select('cantidad')->where('activas', 'true')->count();
+        $licenciasactivas = Licencia::select('cantidad')->where('activas', 'true')->first();
         $usuarios_conectados = User::where('activo', true)->count();
 
-        if ($authenticated && $licenciasactivas > $usuarios_conectados) {
+        // dd($licenciasactivas->cantidad, $usuarios_conectados);
+
+        if ($authenticated && $licenciasactivas->cantidad > $usuarios_conectados) {
             return true; // Inicio de sesión exitoso
         } else {
             return false; // No permitir el inicio de sesión
-        }
+        }   
     }
 
     /**
