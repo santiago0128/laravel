@@ -19,6 +19,9 @@ Auth::routes();
 Route::middleware(['web', 'auth', 'check_user_status'])->group(function () {
     
     Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/user', function () {return view('user');});
+    Route::get('/user', [App\Http\Controllers\UserController::class, 'index'])->name('User');
+    Route::get('/user/{id}', [App\Http\Controllers\UserController::class, 'store'])->name('EditUser');
+    Route::post('/campanastatus', [App\Http\Controllers\UserController::class, 'editarUsuarios'])->name('EditUser');
+    
 
 });

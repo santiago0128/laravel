@@ -10,7 +10,7 @@ class CampainServices
 {
     public static function getCampainsUser(){
         $idcampanas = Auth::User()->campanas;
-        $campanas = Campains::wherein('id', explode(",",$idcampanas))->get();
+        $campanas = Campains::wherein('id', explode("|",$idcampanas))->get();
         return $campanas;
     }
 }

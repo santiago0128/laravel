@@ -2,6 +2,7 @@
 
 namespace Illuminate\Foundation\Auth;
 
+use Carbon\Carbon;
 use App\Models\Licencia;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -91,8 +92,6 @@ trait AuthenticatesUsers
         $licenciasactivas = Licencia::select('cantidad')->where('activas', 'true')->first();
         $usuarios_conectados = User::where('activo', true)->count();
 
-        // dd($licenciasactivas->cantidad, $usuarios_conectados);
-
         if ($authenticated && $licenciasactivas->cantidad > $usuarios_conectados) {
             return true; // Inicio de sesión exitoso
         } else {
@@ -143,6 +142,7 @@ trait AuthenticatesUsers
     protected function authenticated(Request $request, $user)
     {
         $user->activo = true;
+        $user->email_verified_at = Carbon::now();
         $user->save();
     }
 

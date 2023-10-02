@@ -24,7 +24,7 @@
                             <td>{{$user->id}}</td>
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
-                            <td><button class="btn btn-success" disabled>Activo</button></td>
+                            <td style="color: #28a745;">Conectado</td>
                         </tr>
                         @endforeach
                     </tbody>
