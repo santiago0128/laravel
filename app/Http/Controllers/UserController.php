@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Campains;
 use App\Models\User;
+use App\Models\Campains;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -15,9 +16,13 @@ class UserController extends Controller
 
     public function index()
     {
-        $user = self::getAllUser();
-        return view('user')->with('user', $user);
+        $user_session = DB::table('users')->paginate(10);
+
+        return view('user', [
+            'users' => $user_session,
+        ]);
     }
+
     public function store($id)
     {
         $user = User::where('id', $id)->first();
@@ -25,11 +30,6 @@ class UserController extends Controller
         return view('editusers')->with('user', $user)->with('campanas', $campanas);
     }
 
-    public function getAllUser()
-    {
-        $user = User::All();
-        return $user;
-    }
     public function editarUsuarios()
     {
         $data = request();

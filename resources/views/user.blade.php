@@ -11,9 +11,8 @@
                 <button type="button" class="btn btn-primary">Agregar Usuario</button>
             </div>
             <div class="background_section">
-                <table id="miTabla" class="table container">
+                <table class="table container">
                     <thead>
-                        <th>id</th>
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Campañas</th>
@@ -22,9 +21,8 @@
                         <th></th>
                     </thead>
                     <tbody>
-                        @foreach ($user as $user)
+                        @foreach ($users as $user)
                         <tr>
-                            <td>{{$user->id}}</td>
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
                             <td>{{$user->campanas}}</td>
@@ -39,6 +37,8 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{$users->links('pagination::bootstrap-5')}}
+
             </div>
         </div>
     </div>

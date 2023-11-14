@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Services\CampainServices;
-use App\Http\Services\SessionControlService;
 
 class HomeController extends Controller
 {
@@ -28,9 +25,11 @@ class HomeController extends Controller
     public function index()
     {
         $campain = CampainServices::getCampainsUser();
-        $user_session = SessionControlService::getSession();
+        $user_session = DB::table('users')->where('activo', true)->paginate(10);
 
-        return view('home')->with('campains', $campain)
-                           ->with('user_session', $user_session);
+        return view('home', [
+            'campains' => $campain,
+            'user_session' => $user_session,
+        ]);
     }
 }

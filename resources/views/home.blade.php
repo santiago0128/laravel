@@ -1,3 +1,15 @@
+<?php
+
+use Illuminate\Support\Facades\Auth;
+
+$campain = isset($campain) ? $campain : null;
+$userId = Auth::user()->id;
+$nombreCampana = $campain ? $campain->nombre_campana : '';
+$puertocampana = $campain ? $campain->puerto_campana : '';
+$nombreCampana = htmlspecialchars($nombreCampana);
+$url = "http://127.0.0.1:$puertocampana?idUsuario={$userId}";
+?>
+
 @extends('layouts.app')
 @extends('layouts.sidebar')
 @section('content')
@@ -9,7 +21,7 @@
                 <h2>Usuarios Activos</h2>
             </div>
             <div class="background_section">
-                <table id="miTabla" class="table container">
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>IdUsuario</th>
@@ -28,8 +40,8 @@
                         </tr>
                         @endforeach
                     </tbody>
-
                 </table>
+                {{$user_session->links('pagination::bootstrap-5')}}
             </div>
             @endif
             <br>
@@ -40,10 +52,10 @@
                 @foreach ($campains as $campain)
                 <div class="col-sm-12 col-md-12 col-xl-4 background_section">
                     <div class="card">
-                        <img src="{{ asset('images/' . $campain->foto_campana.'') }}" class="card-img-top">
+                        <img src="{{ asset('images/' . $campain->foto_campana) }}" class="card-img-top">
                         <div class="card-body">
                             <p class="card-text">{{$campain->nombre_campana}}</p>
-                            <a href="{{$campain->ruta_campana}}" class="btn btn-primary">Entrar</a>
+                            <a href="http://127.0.0.1:{{ $campain->puerto_campana }}?idUsuario={{$userId}}" target="_blank" class="btn btn-primary">Entrar</a>
                         </div>
                     </div>
                 </div>
@@ -71,32 +83,16 @@
                             <p class="description" style="text-align: center;"> {{Auth::user()->name}} </p>
                         </div>
                     </div>
-                    @if (Auth::user()->rol === 1)
-                    <hr>
-                    <div>
-                        <form>
-                            @csrf
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                    </div>
-                    @endif
                 </div>
             </div>
-
         </div>
     </div>
 </div>
+</body>
+</html>
+<script>
+    function openCampain() {
+        window.open("<?php echo $url ?>", "_blank");
+    }
+</script>
 @endsection
