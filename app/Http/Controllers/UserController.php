@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Campains;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
- 
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -30,25 +31,32 @@ class UserController extends Controller
         return view('editusers')->with('user', $user)->with('campanas', $campanas);
     }
 
+    public  function controlCampana()
+    {
+        dd(request()['id']);
+        $id = Auth::user()->id;                         
+        User::where('id', $id)->update([
+            'campana_activa' => request()['id'],
+        ]);
+    }
+
     public function editarUsuarios()
     {
         $data = request();
         $user = User::where('id', $data->idusuario)->first();
         $campanas_activas = explode('|', $user->campanas);
-        if(in_array($data->idcampana, $campanas_activas)){
+        if (in_array($data->idcampana, $campanas_activas)) {
             $indice = array_search($data->idcampana, $campanas_activas);
             unset($campanas_activas[$indice]);
-        }else{
+        } else {
             $campanas_activas[] = $data->idcampana;
         }
 
         if (count($campanas_activas) >= 1) {
             $campanas = implode('|', $campanas_activas);
-        }else{
+        } else {
             $campanas =  $campanas_activas;
         }
         User::where('id', $data->idusuario)->update(['campanas' => $campanas]);
-
     }
-
 }

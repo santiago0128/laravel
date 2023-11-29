@@ -32,4 +32,11 @@ class HomeController extends Controller
             'user_session' => $user_session,
         ]);
     }
+
+    public function main(){
+
+        dd(request()['id']);
+
+    }
+
 }

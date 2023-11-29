@@ -55,7 +55,7 @@ $url = "http://127.0.0.1:$puertocampana?idUsuario={$userId}";
                         <img src="{{ asset('images/' . $campain->foto_campana) }}" class="card-img-top">
                         <div class="card-body">
                             <p class="card-text">{{$campain->nombre_campana}}</p>
-                            <a href="http://127.0.0.1:{{ $campain->puerto_campana }}?idUsuario={{$userId}}" target="_blank" class="btn btn-primary">Entrar</a>
+                            <a href="http://xion.campana:{{ $campain->puerto_campana }}?idUsuario={{$userId}}" onclick='activar_campana(<?= $campain->id ?>);' target="_blank" class="btn btn-primary">Entrar</a>
                         </div>
                     </div>
                 </div>
@@ -89,10 +89,16 @@ $url = "http://127.0.0.1:$puertocampana?idUsuario={$userId}";
     </div>
 </div>
 </body>
+
 </html>
 <script>
-    function openCampain() {
-        window.open("<?php echo $url ?>", "_blank");
+   async function activar_campana(id) {
+        const response = await fetch("/main?id="+id, {
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                "Content-Type": "application/json",
+            },
+        });
     }
 </script>
 @endsection

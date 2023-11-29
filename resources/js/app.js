@@ -11,12 +11,7 @@ import ExampleComponent from './components/ExampleComponent.vue';
 app.component('example-component', ExampleComponent);
 app.mount('#app');
 
-$(document).ready(function() {
-    $('#miTabla').DataTable({
-        "info": false,
-        "lengthChange": false,
-    });
-});
+
 
 document.addEventListener("DOMContentLoaded", function(event) {
    
